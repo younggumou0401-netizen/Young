@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(pageTitle)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${pageTitle + ' - Staff Ratings'}">Staff Ratings</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header th:fragment="header">
+    <p><strong>Rate CS Teaching Staff</strong></p>
+    <nav aria-label="Main navigation">
+        <a th:href="@{/ratings}">All ratings</a> |
+        <a th:href="@{/ratings/new}">Add a rating</a>
+    </nav>
+    <hr>
+</header>
+<p class="message" role="status" th:fragment="flash"
+   th:if="${success}" th:text="${success}"></p>
+<footer th:fragment="footer">
+    <hr>
+    <p>CMPT 276 - Assignment 2</p>
+</footer>
+</body>
+</html>

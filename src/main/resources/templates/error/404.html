@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Rating not found')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+    <h1>404 - Rating not found</h1>
+    <p>This rating does not exist. It may have been deleted.</p>
+    <a th:href="@{/ratings}">Back to all ratings</a>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

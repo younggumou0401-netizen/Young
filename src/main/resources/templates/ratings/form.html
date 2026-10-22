@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${editing ? 'Edit rating' : 'Add a rating'})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+    <h1 th:text="${editing ? 'Edit rating' : 'Add a rating'}">Add a rating</h1>
+    <p>All fields are required except the comment.</p>
+    <form method="post" th:action="@{${formAction}}" th:object="${rating}" novalidate>
+        <p class="error" role="alert" th:if="${#fields.hasAnyErrors()}">Please correct the errors below.</p>
+
+        <div class="field">
+            <label for="name">Name</label>
+            <input id="name" type="text" th:field="*{name}" maxlength="100" required
+                   th:errorclass="is-invalid" aria-describedby="name-error"
+                   th:attr="aria-invalid=${#fields.hasErrors('name')}">
+            <p id="name-error" class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        </div>
+
+        <div class="field">
+            <label for="email">Staff email</label>
+            <input id="email" type="email" th:field="*{email}" maxlength="254" required
+                   th:errorclass="is-invalid" aria-describedby="email-help email-error"
+                   th:attr="aria-invalid=${#fields.hasErrors('email')}">
+            <p id="email-help" class="help">Multiple ratings can use the same staff email.</p>
+            <p id="email-error" class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        </div>
+
+        <div class="field">
+            <label for="roleType">Role</label>
+            <select id="roleType" th:field="*{roleType}" required
+                    th:errorclass="is-invalid" aria-describedby="roleType-error"
+                    th:attr="aria-invalid=${#fields.hasErrors('roleType')}">
+                <option value="">Select a role</option>
+                <option th:each="role : ${roleTypes}" th:value="${role}" th:text="${role.label}"></option>
+            </select>
+            <p id="roleType-error" class="error" th:if="${#fields.hasErrors('roleType')}" th:errors="*{roleType}"></p>
+        </div>
+
+        <p>Scores must be whole numbers from 1 to 10.</p>
+        <div class="field">
+            <label for="clarity">Clarity</label>
+            <input id="clarity" type="number" min="1" max="10" step="1" th:field="*{clarity}" required
+                   th:errorclass="is-invalid" aria-describedby="clarity-error"
+                   th:attr="aria-invalid=${#fields.hasErrors('clarity')}">
+            <p id="clarity-error" class="error" th:if="${#fields.hasErrors('clarity')}" th:errors="*{clarity}"></p>
+        </div>
+
+        <div class="field">
+            <label for="niceness">Niceness</label>
+            <input id="niceness" type="number" min="1" max="10" step="1" th:field="*{niceness}" required
+                   th:errorclass="is-invalid" aria-describedby="niceness-error"
+                   th:attr="aria-invalid=${#fields.hasErrors('niceness')}">
+            <p id="niceness-error" class="error" th:if="${#fields.hasErrors('niceness')}" th:errors="*{niceness}"></p>
+        </div>
+
+        <div class="field">
+            <label for="knowledgeableScore">Knowledge</label>
+            <input id="knowledgeableScore" type="number" min="1" max="10" step="1" th:field="*{knowledgeableScore}" required
+                   th:errorclass="is-invalid" aria-describedby="knowledgeableScore-error"
+                   th:attr="aria-invalid=${#fields.hasErrors('knowledgeableScore')}">
+            <p id="knowledgeableScore-error" class="error" th:if="${#fields.hasErrors('knowledgeableScore')}" th:errors="*{knowledgeableScore}"></p>
+        </div>
+
+        <div class="field">
+            <label for="comment">Comment (optional)</label>
+            <textarea id="comment" rows="5" maxlength="1000" th:field="*{comment}"
+                      th:errorclass="is-invalid" aria-describedby="comment-help comment-error"
+                      th:attr="aria-invalid=${#fields.hasErrors('comment')}"></textarea>
+            <p id="comment-help" class="help">Maximum 1,000 characters.</p>
+            <p id="comment-error" class="error" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></p>
+        </div>
+
+        <button type="submit" th:text="${editing ? 'Save changes' : 'Save rating'}">Save rating</button>
+        <a th:href="${editing} ? @{/ratings/{id}(id=${ratingId})} : @{/ratings}">Cancel</a>
+    </form>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

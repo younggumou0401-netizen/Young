@@ -1,0 +1,13 @@
+CMPT 276 - Assignment 2
+Rate CS Teaching Staff
+
+Render URL:
+Deployment in progress; use the verified URL recorded after deployment.
+
+GitHub repository URL:
+https://github.com/younggumou0401-netizen/Young
+
+Known Issues / Future Work:
+- This initial iteration has no authentication or ownership controls; users can edit or delete any rating.
+- Ratings are shown individually. An aggregate score for a specific instructor is outside this iteration's scope.
+- Search, pagination, and moderation could be added in a future iteration.

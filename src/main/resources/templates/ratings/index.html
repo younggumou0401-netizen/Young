@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('All ratings')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+    <h1>Staff Ratings</h1>
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <p th:if="${#lists.isEmpty(ratings)}">No ratings yet.</p>
+    <table th:unless="${#lists.isEmpty(ratings)}">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Role</th>
+            <th scope="col">Overall score</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rating : ${ratings}">
+            <td th:text="${rating.name}">Name</td>
+            <td th:text="${rating.roleType.label}">Role</td>
+            <td><span th:text="${#numbers.formatDecimal(rating.overallScore, 1, 1)}">0.0</span> / 10</td>
+            <td>
+                <a th:href="@{/ratings/{id}(id=${rating.id})}">View</a>
+                <a th:href="@{/ratings/{id}/edit(id=${rating.id})}">Edit</a>
+                <a th:href="@{/ratings/{id}/delete(id=${rating.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The overall score is the average of clarity, niceness, and knowledge for each rating.</p>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

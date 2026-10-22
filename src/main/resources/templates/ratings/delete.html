@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Delete rating')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+    <h1>Delete Rating</h1>
+    <p>Are you sure you want to delete the rating for <strong th:text="${rating.name}">this staff member</strong>?</p>
+    <p th:text="${rating.profile.displayTitle()}"></p>
+    <p>This cannot be undone.</p>
+    <form method="post" th:action="@{/ratings/{id}/delete(id=${rating.id})}">
+        <button type="submit">Yes, delete rating</button>
+        <a th:href="@{/ratings/{id}(id=${rating.id})}">Keep rating</a>
+    </form>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+# Equivalent Blueprint for a new deployment. Review resource names before applying.
+services:
+  - type: web
+    name: young-staff-ratings
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /ratings
+    autoDeployTrigger: "off"
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DB_HOST
+        fromDatabase:
+          name: young-staff-ratings-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: young-staff-ratings-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: young-staff-ratings-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: young-staff-ratings-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: young-staff-ratings-db
+          property: password
+databases:
+  - name: young-staff-ratings-db
+    plan: free
+    region: oregon
+    databaseName: staffratings
+    user: staffratings
+    postgresMajorVersion: "16"
+    ipAllowList: []
