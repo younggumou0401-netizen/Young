@@ -121,45 +121,34 @@ Automated tests exercise both implementations and their actual rendered output.
 Unknown record IDs return HTTP 404 with a helpful page. Successful writes follow
 the POST/redirect/GET pattern. Viewing a delete confirmation never deletes data.
 
-## How to deploy to Render
+## Render deployment
 
-Repository: <https://github.com/younggumou0401-netizen/Young>.
+- Live app: <https://young-staff-ratings.onrender.com/ratings>
+- Repository: <https://github.com/younggumou0401-netizen/Young>
 
-This project is deployed in the Young account's Render workspace, using a Docker
-web service and a separate managed PostgreSQL 16 database in Oregon. The
-production profile requires PostgreSQL and has no H2 fallback. See
-`VERIFICATION.md` for the deployment's current verification status.
+The deployment is managed by the repository's `render.yaml` Blueprint in the
+Young Render workspace. It uses the `young-staff-ratings` Docker web service and
+the `young-staff-ratings-db` PostgreSQL 16 database, both in Oregon.
 
-The Docker build runs `mvn verify`, then copies only the packaged application
-into a Java 17 runtime image. Render's `PORT` environment variable controls the
-listening port.
+`SPRING_PROFILES_ACTIVE=prod` selects PostgreSQL. The Blueprint supplies
+`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, and `DB_PASSWORD` using database
+references, so credentials are not committed. The production profile has no H2
+fallback. The Docker image runs as an unprivileged user and listens on Render's
+`PORT`; the health check is `/ratings`.
 
-For an existing deployment, set these values in the web service's Environment
-page, using the PostgreSQL database's internal connection details:
+The image build runs all 64 tests with `mvn verify` and packages the Java 17
+application. Automatic deployment is disabled. For a code update, test locally,
+commit and push to `main`, then use Manual Deploy > Deploy latest commit for this
+web service. If deployment configuration changes, update `render.yaml` and review
+the Blueprint sync rather than maintaining conflicting Dashboard settings.
 
-| Variable | Value |
-| --- | --- |
-| `SPRING_PROFILES_ACTIVE` | `prod` |
-| `DB_HOST` | Render PostgreSQL internal host |
-| `DB_PORT` | `5432` |
-| `DB_NAME` | Actual database name |
-| `DB_USERNAME` | Actual database user |
-| `DB_PASSWORD` | Actual database password, stored only in Render |
+The live app's CRUD and validation checks passed. A retained test rating
+survived a fresh container deployment using the same PostgreSQL database, then
+was removed. See `VERIFICATION.md` for the verification record.
 
-Keep the web service and database in the same workspace and region. Do not
-commit database credentials. Deploy the reviewed commit, wait for Live, then
-follow the PostgreSQL acceptance steps in `TESTING.md`. If auto-deploy is off,
-use Manual Deploy > Deploy latest commit after pushing a change.
-
-`render.yaml` provides an equivalent Blueprint for a new deployment. It defines
-`young-staff-ratings` and `young-staff-ratings-db`, references database properties
-without including secrets, and disables automatic deployment. Before applying a
-Blueprint to existing resources, review the planned changes and resource names.
-A standalone deployment created through the Dashboard or API remains managed
-there until it is deliberately linked to a Blueprint.
-
-Free Render resources have platform limits; check the database's expiration date
-in the Dashboard and keep the site available for marking.
+This deployment uses Free plans. The current database expires on
+**November 21, 2026 at 06:21 UTC**. Keep the database and website available until
+marking is finished. Free web services can take longer to respond after idling.
 
 ## Assignment checklist
 

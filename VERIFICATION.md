@@ -1,6 +1,7 @@
 # Verification record
 
-Verified on October 21, 2026 (Pacific time).
+Local verification: October 21, 2026 (Pacific time).
+Render verification: October 22, 2026 (UTC).
 
 ## Simple UI version
 
@@ -44,13 +45,46 @@ The required documentation, Maven wrapper, and deployment YAML were also checked
 No production credentials, test database files, or temporary tool installations
 are included in the source package.
 
-## Deployment status
+## Render deployment verified
 
-The user ran this simple UI version locally and confirmed it works.
-The source is being published to
-<https://github.com/younggumou0401-netizen/Young> for deployment in the Young
-Render workspace. The production deployment and PostgreSQL acceptance checks
-are in progress; this record will be updated with observed results.
+- Website: <https://young-staff-ratings.onrender.com/ratings>
+- Repository: <https://github.com/younggumou0401-netizen/Young>
+- Deployed application commit: `fe8bc39dd56a1481d02c72190788e7e83246ba0e`.
+- GitHub Actions and Render's Docker build both passed all 64 tests.
+- Render reported the initial deployment Live, then a second deployment of the
+  same application commit Live on October 22, 2026 (UTC).
+- Runtime logs confirm the `prod` profile, PostgreSQL JDBC driver and dialect,
+  and PostgreSQL **16.15**. Production does not use a local H2 file.
 
-Desktop/mobile screenshots and local Docker execution have not been verified in
-this environment. No screenshot checks are represented as passed.
+Real HTTPS acceptance checks against the public site passed:
+
+- Root redirect, list, create form, and stylesheet.
+- Create and read a rating, with a generated ID and timestamps.
+- Both role-specific profile titles and fractional averages.
+- Rejection of missing fields, bad email, scores outside 1–10, decimal scores,
+  and unknown roles.
+- Invalid edits preserve submitted input and leave saved data unchanged.
+- Valid updates keep the same record ID.
+- Duplicate staff emails work according to the documented independent-rating rule.
+- Comment HTML is escaped.
+- GET deletion confirmation is read-only; POST deletion removes the record and
+  its detail page then returns 404.
+- A retained rating remained readable after a fresh Docker deployment, proving
+  persistence outside the web container's filesystem.
+- All uniquely marked acceptance-test ratings were deleted afterwards.
+
+The public list and create form were also opened in a desktop browser and the
+plain layout and fields were inspected. Mobile screenshot checks and local
+Docker Compose execution have not been performed.
+
+The final documentation and submission URLs were updated after acceptance.
+These documentation-only updates do not change the deployed application code.
+
+## Submission and hosting notes
+
+TA collaborator membership and the Canvas upload must be confirmed by the
+student. Read access to a public repository alone does not establish that a TA
+has been added as a collaborator.
+
+The current Free PostgreSQL database expires on November 21, 2026 at 06:21 UTC.
+Keep the service and database available until marking is complete.
