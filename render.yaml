@@ -35,7 +35,7 @@ databases:
   - name: young-staff-ratings-db
     plan: free
     region: oregon
-    databaseName: staffratings
-    user: staffratings
+    databaseName: young_staff_ratings_db
+    user: young_staff_ratings_db_user
     postgresMajorVersion: "16"
     ipAllowList: []
